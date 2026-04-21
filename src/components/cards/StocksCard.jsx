@@ -1,8 +1,10 @@
 import Card from './Card';
 import Skeleton from '../Skeleton';
 import { fmt, cc, arrow } from '../../utils/format';
+import { useI18n } from '../../i18n';
 
 export default function StocksCard({ data, loading, currentView }) {
+  const { t } = useI18n();
   const isWeekly = currentView === 'weekly';
 
   const renderContent = () => {
@@ -12,7 +14,7 @@ export default function StocksCard({ data, loading, currentView }) {
       return (
         <div className="empty-state">
           <div className="empty-icon">📊</div>
-          <p>{data === null ? 'Failed to load stock data' : 'Click "Collect Data" to fetch market data'}</p>
+          <p>{data === null ? t('failedStocks') : t('emptyStocks')}</p>
         </div>
       );
     }
@@ -21,10 +23,10 @@ export default function StocksCard({ data, loading, currentView }) {
       <table className="data-table fade-in">
         <thead>
           <tr>
-            <th>Index</th>
-            <th>Price</th>
-            <th>24h</th>
-            {isWeekly && <th>7d</th>}
+            <th>{t('colIndex')}</th>
+            <th>{t('colPrice')}</th>
+            <th>{t('col24h')}</th>
+            {isWeekly && <th>{t('col7d')}</th>}
           </tr>
         </thead>
         <tbody>
@@ -62,7 +64,7 @@ export default function StocksCard({ data, loading, currentView }) {
   };
 
   return (
-    <Card variant="stocks" icon="📈" title="Stock Indices" badge="LIVE">
+    <Card variant="stocks" icon="📈" title={t('stockIndices')} badge={t('badgeLive')}>
       {renderContent()}
     </Card>
   );

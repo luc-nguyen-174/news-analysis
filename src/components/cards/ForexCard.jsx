@@ -1,8 +1,10 @@
 import Card from './Card';
 import Skeleton from '../Skeleton';
 import { fmt, cc, arrow } from '../../utils/format';
+import { useI18n } from '../../i18n';
 
 export default function ForexCard({ data, loading, currentView }) {
+  const { t } = useI18n();
   const isWeekly = currentView === 'weekly';
 
   const renderContent = () => {
@@ -12,7 +14,7 @@ export default function ForexCard({ data, loading, currentView }) {
       return (
         <div className="empty-state">
           <div className="empty-icon">💹</div>
-          <p>{data === null ? 'Failed to load forex data' : 'Click "Collect Data" to fetch rates'}</p>
+          <p>{data === null ? t('failedForex') : t('emptyForex')}</p>
         </div>
       );
     }
@@ -21,9 +23,9 @@ export default function ForexCard({ data, loading, currentView }) {
       <table className="data-table fade-in">
         <thead>
           <tr>
-            <th>Pair</th>
-            <th>Rate</th>
-            {isWeekly && <th>7d</th>}
+            <th>{t('colPair')}</th>
+            <th>{t('colRate')}</th>
+            {isWeekly && <th>{t('col7d')}</th>}
           </tr>
         </thead>
         <tbody>
@@ -59,7 +61,7 @@ export default function ForexCard({ data, loading, currentView }) {
   };
 
   return (
-    <Card variant="forex" icon="💱" title="Forex Rates" badge="FX">
+    <Card variant="forex" icon="💱" title={t('forexRates')} badge={t('badgeFx')}>
       {renderContent()}
     </Card>
   );

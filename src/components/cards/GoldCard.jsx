@@ -1,8 +1,10 @@
 import Card from './Card';
 import Skeleton from '../Skeleton';
 import { fmt, cc, arrow } from '../../utils/format';
+import { useI18n } from '../../i18n';
 
 export default function GoldCard({ data, loading, currentView }) {
+  const { t } = useI18n();
   const isWeekly = currentView === 'weekly';
 
   const renderContent = () => {
@@ -12,7 +14,7 @@ export default function GoldCard({ data, loading, currentView }) {
       return (
         <div className="empty-state">
           <div className="empty-icon">✨</div>
-          <p>{data === null ? 'Failed to load gold data' : 'Click "Collect Data" to fetch gold prices'}</p>
+          <p>{data === null ? t('failedGold') : t('emptyGold')}</p>
         </div>
       );
     }
@@ -21,11 +23,11 @@ export default function GoldCard({ data, loading, currentView }) {
       <div className="fade-in">
         <div style={{ textAlign: 'center', marginBottom: '16px' }}>
           <div className="gold-price-big">${fmt(data.price, 2)}</div>
-          <div className="gold-price-sub">XAU/USD per troy ounce</div>
+          <div className="gold-price-sub">{t('xauPerOz')}</div>
         </div>
         <div className="gold-grid">
           <div className="gold-stat">
-            <div className="label">24h Change</div>
+            <div className="label">{t('change24h')}</div>
             <div className="value">
               <span className={`change ${cc(data.dailyChange)}`}>
                 {arrow(data.dailyChange)}{' '}
@@ -37,7 +39,7 @@ export default function GoldCard({ data, loading, currentView }) {
           </div>
           {isWeekly ? (
             <div className="gold-stat">
-              <div className="label">7d Change</div>
+              <div className="label">{t('change7d')}</div>
               <div className="value">
                 <span className={`change ${cc(data.weeklyChange)}`}>
                   {arrow(data.weeklyChange)}{' '}
@@ -49,14 +51,14 @@ export default function GoldCard({ data, loading, currentView }) {
             </div>
           ) : (
             <div className="gold-stat">
-              <div className="label">Prev Close</div>
+              <div className="label">{t('prevClose')}</div>
               <div className="value" style={{ color: 'var(--text-primary)' }}>
                 {data.prevClose ? '$' + fmt(data.prevClose, 2) : 'N/A'}
               </div>
             </div>
           )}
           <div className="gold-stat" style={{ gridColumn: 'span 2' }}>
-            <div className="label">Gold in VND (est. per tael)</div>
+            <div className="label">{t('goldVnd')}</div>
             <div className="value" style={{ color: 'var(--gold)' }}>
               {data.sjcPrice
                 ? '₫' +
@@ -68,7 +70,7 @@ export default function GoldCard({ data, loading, currentView }) {
         </div>
         {data.source && (
           <div className="meta-text" style={{ textAlign: 'right', marginTop: '8px' }}>
-            Source: {data.source}
+            {t('source')}: {data.source}
           </div>
         )}
       </div>
@@ -76,7 +78,7 @@ export default function GoldCard({ data, loading, currentView }) {
   };
 
   return (
-    <Card variant="gold" icon="🥇" title="Gold Market" badge="XAU">
+    <Card variant="gold" icon="🥇" title={t('goldMarket')} badge={t('badgeXau')}>
       {renderContent()}
     </Card>
   );

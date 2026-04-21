@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,10 +11,13 @@ import { Line } from 'react-chartjs-2';
 import Card from './Card';
 import Skeleton from '../Skeleton';
 import { fmt, arrow } from '../../utils/format';
+import { useI18n } from '../../i18n';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Tooltip);
 
 export default function BTCChartCard({ sparkline, loading }) {
+  const { t } = useI18n();
+
   const renderContent = () => {
     if (loading) return <Skeleton rows={4} />;
 
@@ -24,9 +26,7 @@ export default function BTCChartCard({ sparkline, loading }) {
         <div className="empty-state">
           <div className="empty-icon">📈</div>
           <p>
-            {sparkline === null
-              ? 'Failed to load BTC chart data'
-              : 'Click "Collect Data" to see BTC chart'}
+            {sparkline === null ? t('failedBtcChart') : t('emptyBtcChart')}
           </p>
         </div>
       );
@@ -129,7 +129,7 @@ export default function BTCChartCard({ sparkline, loading }) {
           </span>
           <span className={`change ${isUp ? 'up' : 'down'}`}>
             {arrow(end - start)}{' '}
-            {fmt(Math.abs(((end - start) / start) * 100))}% (7d)
+            {fmt(Math.abs(((end - start) / start) * 100))}% ({t('btc7dChange')})
           </span>
         </div>
         <div className="chart-container">
@@ -140,7 +140,7 @@ export default function BTCChartCard({ sparkline, loading }) {
   };
 
   return (
-    <Card variant="btc-chart" icon="📉" title="BTC 7-Day Sparkline" badge="CHART">
+    <Card variant="btc-chart" icon="📉" title={t('btcSparkline')} badge={t('badgeChart')}>
       {renderContent()}
     </Card>
   );

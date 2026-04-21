@@ -1,7 +1,10 @@
 import Card from './Card';
 import Skeleton from '../Skeleton';
+import { useI18n } from '../../i18n';
 
 export default function FearGreedCard({ data, loading }) {
+  const { t } = useI18n();
+
   const renderContent = () => {
     if (loading) return <Skeleton rows={4} />;
 
@@ -9,31 +12,36 @@ export default function FearGreedCard({ data, loading }) {
       return (
         <div className="empty-state">
           <div className="empty-icon">🎭</div>
-          <p>{data === null ? 'Failed to load F&G data' : 'Click "Collect Data" to fetch sentiment'}</p>
+          <p>{data === null ? t('failedFearGreed') : t('emptyFearGreed')}</p>
         </div>
       );
     }
 
     const value = parseInt(data.value);
-    const label = data.value_classification;
     let labelClass = 'neutral-f';
     let gaugeColor = '#ffd740';
+    let localizedLabel = t('fngNeutral');
 
     if (value <= 25) {
       labelClass = 'extreme-fear';
       gaugeColor = '#ff1744';
+      localizedLabel = t('fngExtremeFear');
     } else if (value <= 45) {
       labelClass = 'fear';
       gaugeColor = '#ff6e40';
+      localizedLabel = t('fngFear');
     } else if (value <= 55) {
       labelClass = 'neutral-f';
       gaugeColor = '#ffd740';
+      localizedLabel = t('fngNeutral');
     } else if (value <= 75) {
       labelClass = 'greed';
       gaugeColor = '#69f0ae';
+      localizedLabel = t('fngGreed');
     } else {
       labelClass = 'extreme-greed';
       gaugeColor = '#00e676';
+      localizedLabel = t('fngExtremeGreed');
     }
 
     const a = (value / 100) * 180;
@@ -83,7 +91,7 @@ export default function FearGreedCard({ data, loading }) {
         <div className="fng-value" style={{ color: gaugeColor }}>
           {value}
         </div>
-        <div className={`fng-label ${labelClass}`}>{label}</div>
+        <div className={`fng-label ${labelClass}`}>{localizedLabel}</div>
         <div
           style={{
             marginTop: '8px',
@@ -91,7 +99,7 @@ export default function FearGreedCard({ data, loading }) {
             color: 'var(--text-muted)',
           }}
         >
-          Updated:{' '}
+          {t('lastUpdated')}:{' '}
           {new Date(data.timestamp * 1000).toLocaleDateString()}
         </div>
       </div>
@@ -99,7 +107,7 @@ export default function FearGreedCard({ data, loading }) {
   };
 
   return (
-    <Card variant="fear" icon="😱" title="Fear & Greed Index" badge="SENTIMENT">
+    <Card variant="fear" icon="😱" title={t('fearGreedIndex')} badge={t('badgeSentiment')}>
       {renderContent()}
     </Card>
   );

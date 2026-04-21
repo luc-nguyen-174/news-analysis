@@ -1,3 +1,5 @@
+import { useI18n } from '../i18n';
+
 export default function ControlsBar({
   loading,
   currentView,
@@ -8,6 +10,7 @@ export default function ControlsBar({
   onExportPNG,
   onExportJSON,
 }) {
+  const { t } = useI18n();
   return (
     <div className="controls-bar">
       <button
@@ -18,7 +21,7 @@ export default function ControlsBar({
       >
         <span className="spinner" />
         <span className="btn-icon">🔄</span>
-        Collect Data
+        {t('collectData')}
       </button>
 
       <button
@@ -26,7 +29,7 @@ export default function ControlsBar({
         id="btnDaily"
         onClick={() => onSetView('daily')}
       >
-        Today's Snapshot
+        {t('todaySnapshot')}
       </button>
 
       <button
@@ -34,11 +37,11 @@ export default function ControlsBar({
         id="btnWeekly"
         onClick={() => onSetView('weekly')}
       >
-        Weekly Overview
+        {t('weeklyOverview')}
       </button>
 
       <div className="auto-refresh-group">
-        <span className="auto-refresh-label">Auto-refresh</span>
+        <span className="auto-refresh-label">{t('autoRefresh')}</span>
         <label className="switch">
           <input
             type="checkbox"
@@ -51,10 +54,10 @@ export default function ControlsBar({
       </div>
 
       <button className="btn-secondary" onClick={onExportPNG}>
-        📸 Export PNG
+        📸 {t('exportPNG')}
       </button>
       <button className="btn-secondary" onClick={onExportJSON}>
-        💾 Export JSON
+        💾 {t('exportJSON')}
       </button>
     </div>
   );

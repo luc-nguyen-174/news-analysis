@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Skeleton from './Skeleton';
+import { useI18n } from '../i18n';
 
 /**
  * Format relative time (e.g. "2h ago", "3d ago").
@@ -70,6 +71,7 @@ function CategoryTab({ cat, isActive, onClick }) {
 }
 
 export default function NewsSection({ newsData, loading }) {
+  const { t } = useI18n();
   const [activeCategory, setActiveCategory] = useState('macro');
 
   if (loading) {
@@ -78,9 +80,9 @@ export default function NewsSection({ newsData, loading }) {
         <div className="news-header">
           <div className="news-header-brand">
             <span className="news-header-icon">📡</span>
-            <h2 className="news-header-title">Market Intelligence Feed</h2>
+            <h2 className="news-header-title">{t('marketIntelFeed')}</h2>
           </div>
-          <span className="news-header-badge">AI CURATED</span>
+          <span className="news-header-badge">{t('newsBadgeAI')}</span>
         </div>
         <Skeleton rows={8} />
       </div>
@@ -93,13 +95,13 @@ export default function NewsSection({ newsData, loading }) {
         <div className="news-header">
           <div className="news-header-brand">
             <span className="news-header-icon">📡</span>
-            <h2 className="news-header-title">Market Intelligence Feed</h2>
+            <h2 className="news-header-title">{t('marketIntelFeed')}</h2>
           </div>
-          <span className="news-header-badge">NEWS</span>
+          <span className="news-header-badge">{t('newsBadgeNews')}</span>
         </div>
         <div className="empty-state">
           <div className="empty-icon">📰</div>
-          <p>Click "Collect Data" to fetch market news</p>
+          <p>{t('newsEmpty')}</p>
         </div>
       </div>
     );
@@ -113,12 +115,12 @@ export default function NewsSection({ newsData, loading }) {
       <div className="news-header">
         <div className="news-header-brand">
           <span className="news-header-icon">📡</span>
-          <h2 className="news-header-title">Market Intelligence Feed</h2>
+          <h2 className="news-header-title">{t('marketIntelFeed')}</h2>
         </div>
         <span className="news-header-subtitle">
-          News & signals that may impact future prices
+          {t('newsSubtitle')}
         </span>
-        <span className="news-header-badge">LIVE</span>
+        <span className="news-header-badge">{t('newsBadgeLive')}</span>
       </div>
 
       {/* Category Tabs */}
@@ -141,13 +143,13 @@ export default function NewsSection({ newsData, loading }) {
           ))
         ) : (
           <div className="news-empty">
-            <p>No recent news found for this category</p>
+            <p>{t('newsNoArticles')}</p>
           </div>
         )}
       </div>
 
       <div className="news-footer-note">
-        Sources: Google News, Reddit &bull; Auto-aggregated, not financial advice
+        {t('newsFooter')}
       </div>
     </div>
   );

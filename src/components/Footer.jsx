@@ -1,8 +1,11 @@
+import { useI18n } from '../i18n';
+
 export default function Footer() {
+  const { t } = useI18n();
   return (
     <div className="footer">
       <p>
-        MarketPulse Dashboard — Data from{' '}
+        {t('footerDataFrom')}{' '}
         <a href="https://www.coingecko.com" target="_blank" rel="noreferrer">
           CoinGecko
         </a>
@@ -20,7 +23,7 @@ export default function Footer() {
         </a>
       </p>
       <p style={{ marginTop: '4px' }}>
-        All data is delayed and for informational purposes only. Not financial advice.
+        {t('footerDisclaimer')}
       </p>
     </div>
   );

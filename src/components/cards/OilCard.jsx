@@ -1,8 +1,10 @@
 import Card from './Card';
 import Skeleton from '../Skeleton';
 import { fmt, cc, arrow } from '../../utils/format';
+import { useI18n } from '../../i18n';
 
 export default function OilCard({ data, loading, currentView }) {
+  const { t } = useI18n();
   const isWeekly = currentView === 'weekly';
 
   const renderContent = () => {
@@ -12,7 +14,7 @@ export default function OilCard({ data, loading, currentView }) {
       return (
         <div className="empty-state">
           <div className="empty-icon">⛽</div>
-          <p>{data === null ? 'Failed to load oil data' : 'Click "Collect Data" to fetch oil prices'}</p>
+          <p>{data === null ? t('failedOil') : t('emptyOil')}</p>
         </div>
       );
     }
@@ -21,10 +23,10 @@ export default function OilCard({ data, loading, currentView }) {
       <table className="data-table fade-in">
         <thead>
           <tr>
-            <th>Type</th>
-            <th>Price</th>
-            <th>24h</th>
-            {isWeekly && <th>7d</th>}
+            <th>{t('colType')}</th>
+            <th>{t('colPrice')}</th>
+            <th>{t('col24h')}</th>
+            {isWeekly && <th>{t('col7d')}</th>}
           </tr>
         </thead>
         <tbody>
@@ -54,7 +56,7 @@ export default function OilCard({ data, loading, currentView }) {
   };
 
   return (
-    <Card variant="oil" icon="🛢️" title="Oil Market" badge="CRUDE">
+    <Card variant="oil" icon="🛢️" title={t('oilMarket')} badge={t('badgeCrude')}>
       {renderContent()}
     </Card>
   );

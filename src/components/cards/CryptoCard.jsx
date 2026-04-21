@@ -1,8 +1,10 @@
 import Card from './Card';
 import Skeleton from '../Skeleton';
 import { fmt, fmtLarge, cc, arrow } from '../../utils/format';
+import { useI18n } from '../../i18n';
 
 export default function CryptoCard({ data, globalData, loading, currentView }) {
+  const { t } = useI18n();
   const isWeekly = currentView === 'weekly';
 
   const renderContent = () => {
@@ -12,7 +14,7 @@ export default function CryptoCard({ data, globalData, loading, currentView }) {
       return (
         <div className="empty-state">
           <div className="empty-icon">🪙</div>
-          <p>{data === null ? 'Failed to load crypto data' : 'Click "Collect Data" to fetch crypto data'}</p>
+          <p>{data === null ? t('failedCrypto') : t('emptyCrypto')}</p>
         </div>
       );
     }
@@ -22,13 +24,13 @@ export default function CryptoCard({ data, globalData, loading, currentView }) {
         {globalData && (
           <div className="crypto-stats">
             <div className="stat-box">
-              <div className="stat-label">Total Market Cap</div>
+              <div className="stat-label">{t('totalMarketCap')}</div>
               <div className="stat-value">
                 {fmtLarge(globalData.total_market_cap?.usd)}
               </div>
             </div>
             <div className="stat-box">
-              <div className="stat-label">BTC Dominance</div>
+              <div className="stat-label">{t('btcDominance')}</div>
               <div className="stat-value">
                 {globalData.market_cap_percentage?.btc != null
                   ? fmt(globalData.market_cap_percentage.btc, 1) + '%'
@@ -48,11 +50,11 @@ export default function CryptoCard({ data, globalData, loading, currentView }) {
           <thead>
             <tr>
               <th>#</th>
-              <th>Coin</th>
-              <th>Price</th>
-              <th>24h</th>
-              {isWeekly && <th>7d</th>}
-              <th>MCap</th>
+              <th>{t('colCoin')}</th>
+              <th>{t('colPrice')}</th>
+              <th>{t('col24h')}</th>
+              {isWeekly && <th>{t('col7d')}</th>}
+              <th>{t('colMarketCap')}</th>
             </tr>
           </thead>
           <tbody>
@@ -102,7 +104,7 @@ export default function CryptoCard({ data, globalData, loading, currentView }) {
   };
 
   return (
-    <Card variant="crypto" icon="₿" title="Crypto Market" badge="TOP 10">
+    <Card variant="crypto" icon="₿" title={t('cryptoMarket')} badge={t('badgeTop10')}>
       {renderContent()}
     </Card>
   );

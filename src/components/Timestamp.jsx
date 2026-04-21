@@ -1,8 +1,12 @@
+import { useI18n } from '../i18n';
+
 export default function Timestamp({ lastUpdated }) {
+  const { t } = useI18n();
+  if (!lastUpdated) return null;
   return (
-    <div className={`timestamp${lastUpdated ? ' visible' : ''}`} id="timestamp">
-      <span className="dot" />
-      Last updated: <span id="lastUpdated">{lastUpdated || '—'}</span>
+    <div className="timestamp" id="lastUpdated">
+      <span className="timestamp-dot" />
+      {t('lastUpdated')}: {lastUpdated}
     </div>
   );
 }
